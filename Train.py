@@ -96,35 +96,14 @@ if __name__ == '__main__':
                         default='./data/TrainDataset', help='path to train dataset')
     parser.add_argument('--train_save', type=str,
                         default='self-train/no-all/50-512-50-0.1/')
-    parser.add_argument('--ablation', type=str,
-                        default='')
     opt = parser.parse_args()
 
     # ---- build models ----
     # torch.cuda.set_device(0)  # set your gpu device
-
+    from lib.PraNet_Res2Net import PraNet
     model = None
-    if opt.ablation == 'no_ppd':
-        from lib.ablation_1 import PraNet
+    model = PraNet().cuda()
 
-        model = PraNet().cuda()
-    elif opt.ablation == 'no_ra':
-        from lib.ablation_2 import PraNet
-
-        model = PraNet().cuda()
-    elif opt.ablation == 'no_all':
-        from lib.ablation_3 import PraNet
-
-        model = PraNet().cuda()
-    else:
-        from lib.PraNet_Res2Net import PraNet
-
-        model = PraNet().cuda()
-
-    # ---- flops and params ----
-    # from utils.utils import CalParams
-    # x = torch.randn(1, 3, 352, 352).cuda()
-    # CalParams(lib, x)
 
     params = model.parameters()
     optimizer = torch.optim.Adam(params, opt.lr)

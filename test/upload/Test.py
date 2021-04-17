@@ -31,19 +31,7 @@ count=0
 ablation='no_ppd'
 
 model = None
-if ablation == 'no_ppd':
-    from test_related_file.ablation_1 import PraNet
-
-    model = PraNet().cuda()
-elif ablation == 'no_ra':
-    from test_related_file.ablation_2 import PraNet
-
-    model = PraNet().cuda()
-elif ablation == 'no_all':
-    from test_related_file.ablation_3 import PraNet
-
-    model = PraNet().cuda()
-
+from lib.PraNet_Res2Net import PraNet
 model = PraNet().cuda()
 
 
