@@ -23,8 +23,8 @@ The experiment experiments are conducted using PyTorch with an NVIDIA GeForce RT
 
 1. Testing Configuration:
 
-    + After you train the model, cd to the `./test/uploas/Test.py`, and run `Test.py` to generate the prediction with post-processing: 
-    replace your trained model directory (`--pth_path`).
+    + After you train the model, cd to the `./test/upload/Test.py`, and run `Test.py` to generate the prediction with post-processing: 
+    replace your trained model directory (`--pth_path`), also put the model into the corresponding folder.
 
 
     
