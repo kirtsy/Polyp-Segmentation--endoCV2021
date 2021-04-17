@@ -40,4 +40,3 @@ for _data_name in testset_folder:
         res = (res - res.min()) / (res.max() - res.min() + 1e-8)
         misc.imsave(save_path+name, res)
 
-print("finish")
