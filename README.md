@@ -6,7 +6,7 @@
 > [Xiu Li](orcid=0000-0003-0403-1923),
 
 ## 1. Preface
-- This repository provides code for "_**Parallel Res2Net-based Network with Reverse Attention for Polyp Segmentation**_" EndoCV2021 challenge polyp segmentation task. 
+This repository provides code for "_**Parallel Res2Net-based Network with Reverse Attention for Polyp Segmentation**_" EndoCV2021 challenge polyp segmentation task. 
 
 ### 3. Experiment
 The experiment experiments are conducted using PyTorch with an NVIDIA GeForce RTX 3090 GPU.
