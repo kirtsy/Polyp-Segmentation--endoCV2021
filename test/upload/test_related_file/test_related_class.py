@@ -58,66 +58,24 @@ class BasicConv2d(nn.Module):
         x = self.bn(x)
         return x
 
-# class aggregation(nn.Module):
-#     # dense aggregation, it can be replaced by other aggregation previous, such as DSS, amulet, and so on.
-#     # used after MSF
-#     def __init__(self, channel):
-#         super(aggregation, self).__init__()
-#         self.relu = nn.ReLU(True)
-#
-#         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
-#         self.conv_upsample1 = BasicConv2d(channel, channel, 3, padding=1)
-#         self.conv_upsample2 = BasicConv2d(channel, channel, 3, padding=1)
-#         self.conv_upsample3 = BasicConv2d(channel, channel, 3, padding=1)
-#         self.conv_upsample4 = BasicConv2d(channel, channel, 3, padding=1)
-#         self.conv_upsample5 = BasicConv2d(2*channel, 2*channel, 3, padding=1)
-#
-#         self.conv_concat2 = BasicConv2d(2*channel, 2*channel, 3, padding=1)
-#         self.conv_concat3 = BasicConv2d(3*channel, 3*channel, 3, padding=1)
-#         self.conv4 = BasicConv2d(3*channel, 3*channel, 3, padding=1)
-#         self.conv5 = nn.Conv2d(3*channel, 1, 1)
-#
-#     def forward(self, x1, x2, x3):
-#         x1_1 = x1
-#         x2_1 = self.conv_upsample1(self.upsample(x1)) * x2
-#         x3_1 = self.conv_upsample2(self.upsample(self.upsample(x1))) \
-#                * self.conv_upsample3(self.upsample(x2)) * x3
-#
-#         x2_2 = torch.cat((x2_1, self.conv_upsample4(self.upsample(x1_1))), 1)
-#         x2_2 = self.conv_concat2(x2_2)
-#
-#         x3_2 = torch.cat((x3_1, self.conv_upsample5(self.upsample(x2_2))), 1)
-#         x3_2 = self.conv_concat3(x3_2)
-#
-#         x = self.conv4(x3_2)
-#         x = self.conv5(x)
-#
-#         return x
-
 class aggregation(nn.Module):
     def __init__(self, channel):
         super(aggregation, self).__init__()
         self.relu = nn.ReLU(True)
 
         self.upsample = nn.Upsample(scale_factor=2, mode='bilinear', align_corners=True)
-        self.conv_upsample1 = nn.Conv2d(channel, channel, 3, padding=1)
-        self.conv_upsample2 = nn.Conv2d(channel, channel, 3, padding=1)
-        self.conv_upsample3 = nn.Conv2d(channel, channel, 3, padding=1)
-        self.conv_upsample4 = nn.Conv2d(channel, channel, 3, padding=1)
-        self.conv_upsample5 = nn.Conv2d(2*channel, 2*channel, 3, padding=1)
+        self.conv_upsample1 = BasicConv2d(channel, channel, 3, padding=1)
+        self.conv_upsample2 = BasicConv2d(channel, channel, 3, padding=1)
+        self.conv_upsample3 = BasicConv2d(channel, channel, 3, padding=1)
+        self.conv_upsample4 = BasicConv2d(channel, channel, 3, padding=1)
+        self.conv_upsample5 = BasicConv2d(2*channel, 2*channel, 3, padding=1)
 
-        self.conv_concat2 = nn.Conv2d(2*channel, 2*channel, 3, padding=1)
-        self.conv_concat3 = nn.Conv2d(3*channel, 3*channel, 3, padding=1)
-        self.conv4 = nn.Conv2d(3*channel, 3*channel, 3, padding=1)
+        self.conv_concat2 = BasicConv2d(2*channel, 2*channel, 3, padding=1)
+        self.conv_concat3 = BasicConv2d(3*channel, 3*channel, 3, padding=1)
+        self.conv4 = BasicConv2d(3*channel, 3*channel, 3, padding=1)
         self.conv5 = nn.Conv2d(3*channel, 1, 1)
 
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                m.weight.data.normal_(std=0.01)
-                m.bias.data.fill_(0)
-
     def forward(self, x1, x2, x3):
-        # x1: 1/16 x2: 1/8 x3: 1/4
         x1_1 = x1
         x2_1 = self.conv_upsample1(self.upsample(x1)) * x2
         x3_1 = self.conv_upsample2(self.upsample(self.upsample(x1))) \
@@ -133,6 +91,7 @@ class aggregation(nn.Module):
         x = self.conv5(x)
 
         return x
+
 
 class PraNet(nn.Module):
     # res2net based encoder decoder

@@ -31,7 +31,6 @@ count=0
 ablation='no_ppd'
 
 model = None
-from lib.PraNet_Res2Net import PraNet
 model = PraNet().cuda()
 
 
